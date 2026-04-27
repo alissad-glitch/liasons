@@ -1,0 +1,48 @@
+import streamlit as st
+import uuid
+from datetime import datetime
+
+st.set_page_config(page_title="LiaisonOS", page_icon="🚚", layout="wide")
+
+st.title("🚚 LiaisonOS — Atlanta Last-Mile AI Liaison")
+st.caption("Trusted Human-in-the-Loop • Live Demo")
+
+# Sidebar
+st.sidebar.header("Quick Controls")
+if st.sidebar.button("🔄 New Delivery Exception"):
+    st.session_state.thread_id = str(uuid.uuid4())
+    st.rerun()
+
+# Main content
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("📍 Current Route")
+    st.write("**Route ID:** ATL-47291")
+    st.write("**Driver:** Maria Rodriguez")
+    st.write("**Customer:** 123 Peachtree St, Downtown Atlanta")
+    st.write("**ETA:** 3:45 PM")
+
+with col2:
+    st.subheader("⚠️ Exception Detected")
+    st.error("Customer not answering + heavy traffic on I-85")
+
+    st.subheader("🤖 AI Suggestions")
+    suggestions = [
+        "Call customer (92% confidence)",
+        "Leave at secure locker (78%)",
+        "Reschedule for tomorrow (65%)"
+    ]
+    
+    for suggestion in suggestions:
+        if st.button(suggestion, key=suggestion):
+            st.success(f"✅ Decision executed: **{suggestion}**")
+            st.balloons()
+
+st.subheader("👤 Your Liaison Override")
+custom = st.text_input("Type your custom decision or notes")
+if st.button("🚀 Execute & Resume Agent"):
+    st.success(f"Decision saved: **{custom or 'Top suggestion approved'}**")
+    st.info("Feedback sent to improve AI • Agent resumed")
+
+st.success("✅ App is working! This is your live AI liaison dashboard.")
